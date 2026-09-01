@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>TikDown - تنزيل فيديوهات تيك توك بدون علامة مائية HD</title>
+  <meta name="description" content="TikDown - أداة سريعة ومجانية لتنزيل فيديوهات تيك توك بدون علامة مائية وبأعلى جودة HD و MP3 مباشرة على جهازك.">
+  <link rel="stylesheet" href="./src/styles/main.css">
+  <!-- Google AdSense -->
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7501178349578402"
+       crossorigin="anonymous"></script>
+</head>
+<body>
+
+  <!-- ==========================================================================
+       Header Navbar
+       ========================================================================== -->
+  <header class="app-header">
+    <div class="header-brand">
+      <div class="brand-logo-icon">⬇</div>
+      <div class="brand-info">
+        <h1 class="brand-name" data-i18n="app_title">Tik<span class="brand-accent">Down</span></h1>
+        <span class="tagline" data-i18n="app_subtitle">TikTok Video Downloader</span>
+      </div>
+    </div>
+
+    <div class="header-actions">
+      <button id="btn-open-contact" class="btn btn-secondary btn-sm">
+        <span>✉️</span> <span data-i18n="contact_btn">تواصل معنا</span>
+      </button>
+      <button id="btn-lang-toggle" class="btn btn-secondary btn-sm" data-i18n="lang_toggle">
+        English
+      </button>
+    </div>
+  </header>
+
+  <!-- ==========================================================================
+       Main Container: TikDown
+       ========================================================================== -->
+  <main class="landing-container">
+    
+    <!-- Hero Section -->
+    <div class="landing-hero">
+      <div class="hero-badge">⚡ أداة سريعة ومجانية</div>
+      <h2 class="landing-title">
+        تنزيل فيديوهات تيك توك <span class="brand-accent">بدون علامة مائية</span>
+      </h2>
+      <p class="landing-tagline" data-i18n="app_desc">
+        احفظ فيديوهات TikTok المفضلة بجودة عالية HD واستخرج الصوت بصيغة MP3 مباشرة بنقرة واحدة وبدون أي إعلانات مزعجة.
+      </p>
+    </div>
+
+    <!-- Main Downloader Card -->
+    <div class="tiktok-downloader-card">
+      <div class="input-wrapper">
+        <div class="input-icon">🔗</div>
+        <input 
+          type="url" 
+          id="tiktok-url-input" 
+          class="form-control tiktok-input" 
+          placeholder="ضع رابط فيديو تيك توك هنا (مثال: https://www.tiktok.com/@user/video/...)"
+          autocomplete="off"
+        >
+        <button id="btn-paste-url" class="btn-paste" title="لصق الرابط">📋 لصق</button>
+      </div>
+
+      <!-- Format Selection -->
+      <div class="format-options-grid">
+        <label class="format-card active">
+          <input type="radio" name="tiktok-mode" value="nowatermark" checked>
+          <div class="format-card-content">
+            <span class="format-icon">🚫</span>
+            <div class="format-text">
+              <span class="format-title">تنزيل بدون علامة مائية</span>
+              <span class="format-sub">MP4 (No Watermark)</span>
+            </div>
+          </div>
+        </label>
+
+        <label class="format-card">
+          <input type="radio" name="tiktok-mode" value="nowatermark_hd">
+          <div class="format-card-content">
+            <span class="format-icon">✨</span>
+            <div class="format-text">
+              <span class="format-title">HD فائق (إضاءة وتباين محسن)</span>
+              <span class="format-sub">Enhanced HD & Vivid Colors</span>
+            </div>
+          </div>
+        </label>
+
+        <label class="format-card">
+          <input type="radio" name="tiktok-mode" value="mp3_audio">
+          <div class="format-card-content">
+            <span class="format-icon">🎵</span>
+            <div class="format-text">
+              <span class="format-title">استخراج الصوت فقط</span>
+              <span class="format-sub">MP3 High Quality Audio</span>
+            </div>
+          </div>
+        </label>
+      </div>
+
+      <!-- Action Button (Text updates dynamically on format change) -->
+      <button id="btn-fetch-tiktok" class="btn btn-primary btn-download-main">
+        <span>⚡ تنزيل بدون علامة مائية</span>
+      </button>
+
+      <!-- Minimal Calm Progress Bar (0% -> 100%) -->
+      <div id="tiktok-progress-container" class="hidden mt-4">
+        <div class="progress-info-row">
+          <div class="progress-status-wrap">
+            <span class="loader-spinner"></span>
+            <span id="tiktok-status-label">جاري جلب الفيديو بدون علامة مائية...</span>
+          </div>
+          <span id="tiktok-progress-pct" class="progress-pct-text">0%</span>
+        </div>
+        <div class="progress-bar-track">
+          <div id="tiktok-progress-bar" class="progress-bar-fill" style="width: 0%;"></div>
+        </div>
+      </div>
+
+      <!-- Result Card (Clean Preview & Download Confirmation) -->
+      <div id="tiktok-result-container" class="hidden mt-4 result-preview-card">
+        <div class="result-thumb-wrapper">
+          <img id="tiktok-thumb-preview" class="dl-thumb-img" src="" alt="TikTok Thumbnail">
+          <span class="badge-ready">تم التحميل ✅</span>
+        </div>
+        <div class="result-details">
+          <div class="success-banner">
+            <span class="success-icon">🎉</span>
+            <span class="success-text">تم تنزيل الملف بنجاح على جهازك</span>
+          </div>
+          <h4 id="tiktok-video-title" class="result-title">TikTok Video</h4>
+          <p id="tiktok-video-info" class="result-meta">تمت إزالة العلامة المائية وتطبيق أعلى جودة للصوت والصورة</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Feature Highlights -->
+    <div class="features-highlight-grid">
+      <div class="feature-item">
+        <span class="feature-icon">🚫</span>
+        <h3>بدون علامة مائية</h3>
+        <p>إزالة تامة لشعار تيك توك والعلامة المائية بجودة أصلية صافية.</p>
+      </div>
+      <div class="feature-item">
+        <span class="feature-icon">⚡</span>
+        <h3>حفظ فوري وسريع</h3>
+        <p>تنزيل مباشر على جهازك أو هاتفك بدون إعلانات منبثقة أو تحويلات.</p>
+      </div>
+      <div class="feature-item">
+        <span class="feature-icon">🎧</span>
+        <h3>استخراج الصوت MP3</h3>
+        <p>إمكانية فصل الموسيقى والمقاطع الصوتية وحفظها بصيغة MP3 نقية.</p>
+      </div>
+    </div>
+
+    <!-- Google AdSense Ad Slot (Auto / Responsive Banner) -->
+    <div class="ad-placement-wrapper mt-4">
+      <span class="ad-label">مساحة إعلانية | Advertisement</span>
+      <div class="ad-slot-box ad-slot-bottom">
+        <ins class="adsbygoogle"
+             style="display:block"
+             data-ad-client="ca-pub-7501178349578402"
+             data-ad-slot="auto"
+             data-ad-format="auto"
+             data-full-width-responsive="true"></ins>
+        <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+      </div>
+    </div>
+
+
+
+  </main>
+
+  <!-- ==========================================================================
+       Footer
+       ========================================================================== -->
+  <footer class="app-footer">
+    <div class="footer-content">
+      <p class="copyright">
+        © 2026 <strong>TikDown</strong> - جميع الحقوق محفوظة
+      </p>
+      <div class="footer-links">
+        <button id="btn-open-privacy" class="btn-link">سياسة الخصوصية</button>
+        <span class="divider">•</span>
+        <button id="btn-open-terms" class="btn-link">شروط الاستخدام</button>
+        <span class="divider">•</span>
+        <button id="btn-footer-contact" class="btn-link">تواصل معنا</button>
+      </div>
+    </div>
+  </footer>
+
+  <!-- ==========================================================================
+       Modals
+       ========================================================================== -->
+
+  <!-- 1. Contact Modal -->
+  <div id="modal-contact" class="modal-backdrop">
+    <div class="modal-dialog">
+      <div class="modal-header">
+        <h3 data-i18n="contact_modal_title">تواصل معنا</h3>
+        <button class="modal-close-btn btn btn-icon btn-secondary">✕</button>
+      </div>
+      <div id="contact-modal-body" class="modal-body">
+        <div class="contact-info-block">
+          <p style="margin-bottom: 14px; color: #cbd5e1; font-size: 14px;">
+            يسعدنا استقبال استفساراتكم واقتراحاتكم لتطوير منصة <strong>TikDown</strong>:
+          </p>
+          <div style="display: flex; flex-direction: column; gap: 10px;">
+            <a href="mailto:mjdyt0452@gmail.com" class="contact-card-link">
+              <span style="font-size: 18px;">✉️</span>
+              <div>
+                <strong style="display:block; font-size:13px; color:#fff;">البريد الإلكتروني للتواصل والدعم</strong>
+                <span style="font-size:12px; color:#ff7300; font-weight:600;">mjdyt0452@gmail.com</span>
+              </div>
+            </a>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="modal-close-btn btn btn-secondary btn-sm" data-i18n="close_btn">إغلاق</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- 2. Privacy Policy Modal -->
+  <div id="modal-privacy" class="modal-backdrop">
+    <div class="modal-dialog">
+      <div class="modal-header">
+        <h3 data-i18n="privacy_policy">سياسة الخصوصية</h3>
+        <button class="modal-close-btn btn btn-icon btn-secondary">✕</button>
+      </div>
+      <div class="modal-body modal-legal-content">
+        <h4>سياسة الخصوصية لموقع TikDown</h4>
+        <p>نحن في TikDown نحترم خصوصيتك بشكل كامل. تطبيقنا يتيح تنزيل الوسائط مباشرة دون حفظ أو تسجيل أي بيانات شخصية أو سجلات على خوادمنا.</p>
+        <br>
+        <h4>الاستخدام الآمن</h4>
+        <p>الخدمة مجانية تماماً ومصممة لمساعدة المستخدمين وصناع المحتوى على تنزيل مقاطعهم بسهولة وأمان.</p>
+      </div>
+      <div class="modal-footer">
+        <button class="modal-close-btn btn btn-secondary btn-sm" data-i18n="close_btn">إغلاق</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- 3. Terms of Service Modal -->
+  <div id="modal-terms" class="modal-backdrop">
+    <div class="modal-dialog">
+      <div class="modal-header">
+        <h3 data-i18n="terms_of_service">شروط الاستخدام</h3>
+        <button class="modal-close-btn btn btn-icon btn-secondary">✕</button>
+      </div>
+      <div class="modal-body modal-legal-content">
+        <h4>شروط الاستخدام الخاصة بـ TikDown</h4>
+        <p>باستخدامك لموقع TikDown، فإنك توافق على الالتزام بحقوق الملكية الفكرية لأصحاب المحتوى الأصليين. يُحظر استخدام الخدمة لأي أغراض تنتهك حقوق النشر والتوزيع.</p>
+      </div>
+      <div class="modal-footer">
+        <button class="modal-close-btn btn btn-secondary btn-sm" data-i18n="close_btn">إغلاق</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Entry Script File (Cache-Busted v4.3.0) -->
+  <script src="./src/js/app-bundle.js?v=4.3.0"></script>
+</body>
+</html>
